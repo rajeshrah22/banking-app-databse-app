@@ -6,7 +6,11 @@ import dev.rahulrajesh.PicPayData.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+
 import java.util.NoSuchElementException;
+
+//need to do validation soon
 
 @Service
 public class UserService {
@@ -81,5 +85,23 @@ public class UserService {
         userRepository.save(resultUser);
 
         return  wallet;
+    }
+
+    //amount is positive
+    public String transactAmount(long fromCpf, long toCpf, double amount) throws NoSuchElementException {
+        User fromUser = getUserByCpf(fromCpf);
+        User toUser = getUserByCpf(fromCpf);
+
+        Wallet fromWallet = fromUser.getWallet();
+        Wallet toWallet = toUser.getWallet();
+
+        //transact amount
+        fromWallet.setBalance(fromWallet.getBalance() - amount);
+        toWallet.setBalance(toWallet.getBalance() + amount);
+
+        userRepository.save(fromUser);
+        userRepository.save(toUser);
+
+        return "transaction success!";
     }
 }
