@@ -4,15 +4,17 @@ CREATE TABLE Wallet (
     balance double,
     createdOn timestamp,
     lastTransactedOn timestamp,
-    PRIMARY KEY (id)
+    userID bigint,
+    PRIMARY KEY (id),
+    FOREIGN KEY (userID) REFERENCES User(id)
 );
 
 -- User Table
 CREATE TABLE User(
-    id int auto_increment,
-    fName VARCHAR(30),
-    lName VARCHAR(30),
-    walletID int,
-    PRIMARY KEY (id),
-    FOREIGN KEY (walletID) REFERENCES Wallet(id)
+    cpf bigint auto_increment,
+    fname VARCHAR(30),
+    lname VARCHAR(30),
+    email VARCHAR(30),
+    usertype VARCHAR(15),
+    PRIMARY KEY (cpf)
 );

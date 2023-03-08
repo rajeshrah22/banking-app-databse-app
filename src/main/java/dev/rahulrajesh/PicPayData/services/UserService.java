@@ -39,7 +39,7 @@ public class UserService {
         return resultUser;
     }
 
-    public Wallet getWalletByUserCpf(long cpf) {
+    public Wallet getWalletByUserCpf(long cpf) throws NoSuchElementException{
         User resultUser = userRepository.findById(cpf)
                 .orElseThrow(() -> new NoSuchElementException("User with cpf: " + cpf + " not found"));
 
@@ -55,5 +55,31 @@ public class UserService {
         userRepository.delete(resultUser);
 
         return resultUser;
+    }
+
+    public Wallet updateBalanceByUserCpf(long cpf, double amount) {
+        User resultUser = userRepository.findById(cpf)
+                .orElseThrow(() -> new NoSuchElementException("User with cpf: " + cpf + " not found"));
+
+        Wallet wallet = resultUser.getWallet();
+
+        wallet.setBalance(amount);
+
+        userRepository.save(resultUser);
+
+        return  wallet;
+    }
+
+    public Wallet adjustAmountByUserCpf(long cpf, double amount) throws NoSuchElementException{
+        User resultUser = userRepository.findById(cpf)
+                .orElseThrow(() -> new NoSuchElementException("User with cpf: " + cpf + " not found"));
+
+        Wallet wallet = resultUser.getWallet();
+
+        wallet.setBalance(wallet.getBalance() + amount);
+
+        userRepository.save(resultUser);
+
+        return  wallet;
     }
 }
