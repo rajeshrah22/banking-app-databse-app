@@ -90,7 +90,7 @@ public class UserService {
     //amount is positive
     public String transactAmount(long fromCpf, long toCpf, double amount) throws NoSuchElementException {
         User fromUser = getUserByCpf(fromCpf);
-        User toUser = getUserByCpf(fromCpf);
+        User toUser = getUserByCpf(toCpf);
 
         Wallet fromWallet = fromUser.getWallet();
         Wallet toWallet = toUser.getWallet();

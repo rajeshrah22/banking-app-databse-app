@@ -41,7 +41,7 @@ public class UserController {
        return new ResponseEntity<Wallet>(resultWallet, HttpStatus.OK);
     }
 
-    @PutMapping("/adjustAmount/{cpf}/{amount}")
+    @PostMapping("/adjustAmount/{cpf}/{amount}")
     public ResponseEntity<Wallet> adjustAmountByUserCpf(@PathVariable long cpf, @PathVariable double amount) {
         Wallet resultWallet = null;
 
@@ -53,4 +53,18 @@ public class UserController {
 
         return new ResponseEntity<Wallet>(resultWallet, HttpStatus.OK);
     }
+
+    @PostMapping("/transaction/{fromCpf}/{toCpf}/{amount}")
+    public ResponseEntity<String> transactAmount
+            (@PathVariable long fromCpf, @PathVariable long toCpf, @PathVariable double amount) {
+        String result = "";
+        try {
+            result = userService.transactAmount(fromCpf, toCpf, amount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

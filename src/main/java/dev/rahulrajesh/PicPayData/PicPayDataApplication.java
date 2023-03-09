@@ -13,11 +13,4 @@ public class PicPayDataApplication {
 		SpringApplication.run(PicPayDataApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner commandLineRunner(WalletRepository wallets) {
-		return args -> {
-			wallets.save(new Wallet());
-		};
-	}
-
 }

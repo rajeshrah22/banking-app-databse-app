@@ -1,14 +1,3 @@
--- Wallet Table
-CREATE TABLE Wallet (
-    id int auto_increment,
-    balance double,
-    createdOn timestamp,
-    lastTransactedOn timestamp,
-    userID bigint,
-    PRIMARY KEY (id),
-    FOREIGN KEY (userID) REFERENCES User(id)
-);
-
 -- User Table
 CREATE TABLE User(
     cpf bigint auto_increment,
@@ -18,3 +7,18 @@ CREATE TABLE User(
     usertype VARCHAR(15),
     PRIMARY KEY (cpf)
 );
+
+-- Wallet Table
+CREATE TABLE Wallet (
+    id int auto_increment,
+    balance double,
+    created timestamp,
+    txdate timestamp,
+    user bigint,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user) REFERENCES User(cpf)
+);
+
+describe wallet;
+
+

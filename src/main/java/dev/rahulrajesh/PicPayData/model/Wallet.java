@@ -7,7 +7,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.sql.Timestamp;
 
-@Table("user")
+@Table("wallet")
 @Data
 @AllArgsConstructor
 public class Wallet {
