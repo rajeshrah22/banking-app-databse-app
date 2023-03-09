@@ -5,7 +5,7 @@ import dev.rahulrajesh.PicPayData.model.Wallet;
 import dev.rahulrajesh.PicPayData.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.NoSuchElementException;
@@ -80,7 +80,13 @@ public class UserService {
 
         Wallet wallet = resultUser.getWallet();
 
-        wallet.setBalance(wallet.getBalance() + amount);
+        double balance = wallet.getBalance();
+
+        if (balance + amount < 0) {
+            throw new ArithmeticException("Can't adjust by given amount because balance will become negative");
+        }
+
+        wallet.setBalance(balance + amount);
 
         userRepository.save(resultUser);
 
@@ -88,12 +94,21 @@ public class UserService {
     }
 
     //amount is positive
-    public String transactAmount(long fromCpf, long toCpf, double amount) throws NoSuchElementException {
+    @Transactional
+    public String transactAmount(long fromCpf, long toCpf, double amount)
+            throws NoSuchElementException, ArithmeticException{
         User fromUser = getUserByCpf(fromCpf);
         User toUser = getUserByCpf(toCpf);
 
         Wallet fromWallet = fromUser.getWallet();
         Wallet toWallet = toUser.getWallet();
+
+        double fromBalance = fromWallet.getBalance();
+
+        //validate balance
+        if (fromBalance - amount < 0) {
+            throw new ArithmeticException("Not enough balance");
+        }
 
         //transact amount
         fromWallet.setBalance(fromWallet.getBalance() - amount);
