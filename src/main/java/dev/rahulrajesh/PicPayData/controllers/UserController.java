@@ -32,7 +32,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<User>(resultUser, HttpStatus.OK);
+        return new ResponseEntity<>(resultUser, HttpStatus.OK);
     }
 
     @GetMapping("/userWallet/{cpf}")
@@ -44,7 +44,7 @@ public class UserController {
            e.printStackTrace();
        }
 
-       return new ResponseEntity<Wallet>(resultWallet, HttpStatus.OK);
+       return new ResponseEntity<>(resultWallet, HttpStatus.OK);
     }
 
     @PostMapping("/adjustAmount/{cpf}/{amount}")
@@ -57,7 +57,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<Wallet>(resultWallet, HttpStatus.OK);
+        return new ResponseEntity<>(resultWallet, HttpStatus.OK);
     }
 
     @PostMapping("/transaction/{fromCpf}/{toCpf}/{amount}")
@@ -77,23 +77,39 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User resultUser = userService.createUser(user);
 
-        return new ResponseEntity<User>(resultUser, HttpStatus.OK);
+        return new ResponseEntity<>(resultUser, HttpStatus.OK);
     }
 
     @PostMapping("/login")
     public ResponseEntity<Login> createLogin(@RequestBody Login login) {
         Login resultLogin = loginService.createLoginJDBCTemplate(login);
 
-        return new ResponseEntity<Login>(resultLogin, HttpStatus.OK);
+        return new ResponseEntity<>(resultLogin, HttpStatus.OK);
     }
 
     @GetMapping("/login")
     public ResponseEntity<Login> getLogin(@RequestParam String username) {
-        ResponseEntity<Login> re = null;
+        ResponseEntity<Login> re;
         Login resultLogin = null;
 
         try {
             resultLogin = loginService.getLogin(username);
+        } catch (NoSuchElementException e) {
+            re = new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        re = new ResponseEntity<>(resultLogin, HttpStatus.OK);
+
+        return re;
+    }
+
+    @PostMapping("/deleteLogin")
+    public ResponseEntity<Login> deleteLogin(@RequestParam String username) {
+        ResponseEntity<Login> re;
+        Login resultLogin = null;
+
+        try {
+            resultLogin = loginService.deleteLoginJDBCTemplate(username);
         } catch (NoSuchElementException e) {
             re = new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
