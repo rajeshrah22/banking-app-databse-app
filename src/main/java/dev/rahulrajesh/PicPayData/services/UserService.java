@@ -2,6 +2,7 @@ package dev.rahulrajesh.PicPayData.services;
 
 import dev.rahulrajesh.PicPayData.model.User;
 import dev.rahulrajesh.PicPayData.model.Wallet;
+import dev.rahulrajesh.PicPayData.repository.LoginRepository;
 import dev.rahulrajesh.PicPayData.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ import java.util.NoSuchElementException;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -23,6 +23,9 @@ public class UserService {
 
     //user might exist already
     public User createUser(User user) {
+        Wallet wallet = new Wallet();
+        wallet.setBalance(0.0);
+        user.setWallet(wallet);
         return userRepository.save(user);
     }
 
@@ -96,7 +99,7 @@ public class UserService {
     //amount is positive
     @Transactional
     public String transactAmount(long fromCpf, long toCpf, double amount)
-            throws NoSuchElementException, ArithmeticException{
+            throws NoSuchElementException, ArithmeticException {
         User fromUser = getUserByCpf(fromCpf);
         User toUser = getUserByCpf(toCpf);
 

@@ -1,20 +1,26 @@
 package dev.rahulrajesh.PicPayData.controllers;
 
+import dev.rahulrajesh.PicPayData.model.Login;
 import dev.rahulrajesh.PicPayData.model.User;
 import dev.rahulrajesh.PicPayData.model.Wallet;
+import dev.rahulrajesh.PicPayData.services.LoginService;
 import dev.rahulrajesh.PicPayData.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @RestController
 public class UserController {
     private final UserService userService;
+    private final LoginService loginService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, LoginService loginService) {
         this.userService = userService;
+        this.loginService = loginService;
     }
 
     @GetMapping("/user/{cpf}")
@@ -65,6 +71,36 @@ public class UserController {
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User resultUser = userService.createUser(user);
+
+        return new ResponseEntity<User>(resultUser, HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Login> createLogin(@RequestBody Login login) {
+        Login resultLogin = loginService.createLoginJDBCTemplate(login);
+
+        return new ResponseEntity<Login>(resultLogin, HttpStatus.OK);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<Login> getLogin(@RequestParam String username) {
+        ResponseEntity<Login> re = null;
+        Login resultLogin = null;
+
+        try {
+            resultLogin = loginService.getLogin(username);
+        } catch (NoSuchElementException e) {
+            re = new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        re = new ResponseEntity<>(resultLogin, HttpStatus.OK);
+
+        return re;
     }
 
 }

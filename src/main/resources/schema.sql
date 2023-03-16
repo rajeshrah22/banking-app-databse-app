@@ -11,7 +11,7 @@ CREATE TABLE User(
 -- Wallet Table
 CREATE TABLE Wallet (
     id int auto_increment,
-    balance double,
+    balance double NOT NULL DEFAULT 0,
     created timestamp,
     txdate timestamp,
     user bigint,
@@ -19,6 +19,9 @@ CREATE TABLE Wallet (
     FOREIGN KEY (user) REFERENCES User(cpf)
 );
 
-describe wallet;
-
+CREATE TABLE Login (
+    user bigint,
+    password VARCHAR(30),
+    username VARCHAR(30) PRIMARY KEY
+);
 
