@@ -1,6 +1,6 @@
 # PicPayData
 
-PicPayData is a Spring Boot REST API that manages user data and login credentials. It provides endpoints for CRUD operations on users and logins, and handles business logic and interactions with a MySQL database. The API includes endpoints for creating and deleting users and logins, retrieving user and wallet information, adjusting wallet balances, and performing transactions between users.
+PicPayData is a Spring Boot REST API that manages user data and login credentials. The API includes endpoints for creating and deleting users and logins, retrieving user and wallet information, adjusting wallet balances, and performing transactions between users within a MySQL databse.
 
 ## Technologies Used
 
