@@ -15,7 +15,7 @@ PicPayData is a Spring Boot REST API that manages user data and login credential
 2. Install Java 11 and Maven.
 3. Configure your MySQL database connection in `application.properties`.
 4. Run `mvn clean install` to build the project.
-5. Run `java -jar target/PicPayData-0.0.1-SNAPSHOT.jar` to start the server.
+5. Run `mvn spring-boot:run` to start the server.
 
 ## Endpoints
 
