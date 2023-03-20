@@ -1,0 +1,74 @@
+Sure, here are the REST API contracts for each method in the UserController class:
+
+getUserByCpf method
+HTTP Method: GET
+Endpoint: /user/{cpf}
+Path Parameter:
+cpf - long - CPF of the user to retrieve
+Response:
+Success - 200 OK - User object representing the user with the specified CPF
+Failure - 404 Not Found - If user with the specified CPF does not exist in the database
+
+getUserByEmail method
+HTTP Method: GET
+Endpoint: /user/byEmail
+Request Parameter:
+email - String - Email of the user to retrieve
+Response:
+Success - 200 OK - User object representing the user with the specified email
+Failure - 404 Not Found - If user with the specified email does not exist in the database
+
+getUserWalletByCpf method
+HTTP Method: GET
+Endpoint: /userWallet/{cpf}
+Path Parameter:
+cpf - long - CPF of the user whose wallet to retrieve
+Response:
+Success - 200 OK - Wallet object representing the wallet of the user with the specified CPF
+Failure - 404 Not Found - If user with the specified CPF does not exist in the database
+
+adjustAmountByUserCpf method
+HTTP Method: POST
+Endpoint: /adjustAmount/{cpf}/{amount}
+Path Parameters:
+cpf - long - CPF of the user whose wallet to adjust
+amount - double - Amount to adjust the wallet balance by
+Response:
+Success - 200 OK - Wallet object representing the updated wallet of the user with the specified CPF
+Failure - 404 Not Found - If user with the specified CPF does not exist in the database
+Failure - 400 Bad Request - If the adjustment causes the wallet balance to become negative
+
+transactAmount method
+HTTP Method: POST
+Endpoint: /transaction
+Request Body:
+Transaction - JSON object - Contains payer, payee, and amount fields
+payer - long - CPF of the user who will pay
+payee - long - CPF of the user who will receive payment
+amount - double - Amount to transfer between the two users' wallets
+Response:
+Success - 200 OK - String "transaction success!"
+Failure - 404 Not Found - If either the payer or payee with the specified CPF does not exist in the database
+Failure - 400 Bad Request - If the payer does not have sufficient balance in their wallet for the transaction
+
+createUser method
+HTTP Method: POST
+Endpoint: /user
+Request Body:
+User - JSON object - Contains fields for user details
+fname - String - First name of the user
+lname - String - Last name of the user
+email - String - Email of the user
+cpf - long - CPF of the user
+Response:
+Success - 200 OK - User object representing the newly created user
+
+createLogin method
+HTTP Method: POST
+Endpoint: /login
+Request Body:
+Login - JSON object - Contains fields for login credentials
+username - String - Username for the login
+password - String - Password for the login
+Response:
+Success - 200 OK - Login object
