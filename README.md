@@ -4,10 +4,10 @@ PicPayData is a Spring Boot REST API that manages user data and login credential
 
 ## Technologies Used
 
-- Java 11
-- Spring Boot 2.5.4
-- MySQL 8.0.26
-- Maven
+- Java 8
+- Spring Boot 3.0.3
+- MySQL 8.0.32
+- Maven 3.9.0
 
 ## Getting Started
 
